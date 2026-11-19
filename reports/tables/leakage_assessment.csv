@@ -1,0 +1,13 @@
+feature,runtime_available,leakage_risk,decision,operational_justification
+fraud,No (Target Outcome),Direct Target Leakage,EXCLUDED,Ground truth label; knowing the label before decisioning is circular. Strictly excluded from inputs.
+transaction_id,Yes (Metadata),Spurious Non-Predictive Identifier,EXCLUDED,Arbitrary unique identifier string. Using it leads to memorization and severe test overfitting.
+prior_chargebacks,Yes (Pre-transaction Historical Ledger),Safe under Point-in-Time Ledger Assumption,CONDITIONALLY USABLE,Available at transaction authorization if retrieved from real-time customer ledger. Must strictly record chargebacks prior to current transaction.
+merchant_risk_score,Yes (Merchant Profile Service),Safe under Offline/Real-time Lookups,CONDITIONALLY USABLE,Computed periodically by merchant underwriting or third-party consortium. Assumed cached at authorization time.
+ip_risk_score,Yes (IP Geolocation/Reputation API),Safe under Third-Party Enrichment SLA,CONDITIONALLY USABLE,Returned synchronously by IP reputation gateway (e.g. MaxMind) during checkout session.
+authentication_level,Yes (3DS / Protocol Handshake),Safe (Pre-decision Step),CONDITIONALLY USABLE,Represents 3D-Secure or multi-factor authentication protocol negotiated prior to scoring.
+login_to_transaction_minutes,Yes (Session Management Service),Safe (Session Metadata),CONDITIONALLY USABLE,Difference between transaction timestamp and customer session login timestamp.
+transactions_last_1h,Yes (Streaming Feature Store / Redis),Safe under Strict Real-time Windowing,CONDITIONALLY USABLE,Sliding-window counter maintained in caching layer. Must strictly exclude current transaction.
+transactions_last_24h,Yes (Streaming Feature Store / Redis),Safe under Strict Real-time Windowing,CONDITIONALLY USABLE,Sliding-window counter maintained in caching layer. Must strictly exclude current transaction.
+device_age_days,Yes (Device Fingerprinting SDK),Safe (Client Fingerprint DB),CONDITIONALLY USABLE,Calculated by client-side fraud SDK as elapsed days since device fingerprint first recorded.
+new_device,Yes (Device Fingerprinting SDK),Safe (Client Fingerprint DB),CONDITIONALLY USABLE,Binary indicator emitted by device fingerprinting service if device GUID has no prior history.
+billing_address_mismatch,Yes (AVS - Address Verification Service),Safe (Pre-authorization Gateway Result),CONDITIONALLY USABLE,Returned by card payment gateway during AVS check prior to fraud decisioning engine.

@@ -1,0 +1,4 @@
+scenario,default_cost_1k,optimal_cost_1k,optimal_review_th,optimal_block_th,optimal_fraud_capture,optimal_review_pct,cost_savings_pct
+Scenario A: Fraud-Loss-Dominant,20807.56666666667,7556.956666666665,0.1,0.32,73.97260273972603,51.83333333333333,63.68168951359042
+Scenario B: Balanced Financial & Operational Tradeoff (Primary Baseline),20199.233333333337,9201.0775,0.1,0.36,73.97260273972603,52.83333333333333,54.44838252936993
+Scenario C: Customer-Friction-Dominant,16743.515000000003,10825.000999999998,0.12,0.46,53.42465753424658,35.333333333333336,35.34809745743353

@@ -1,0 +1,1463 @@
+{
+  "metadata": {
+    "project_name": "fraud-risk-intelligence-v2",
+    "version": "1.0.0",
+    "date": "2026-11-19",
+    "random_state": 42,
+    "raw_dataset_sha256": "0138227fc85e053102d34c16fbbffe7a7fc109d8fe1785b11d00aa6247a71644",
+    "principal_notebook": "01_fraud_risk_analysis.ipynb",
+    "production_pipeline_artifact": "03_fraud_model_pipeline.joblib",
+    "production_calibrated_artifact": "04_calibrated_model.joblib",
+    "processed_dataset_artifact": "02_processed_dataset.csv",
+    "threshold_analysis_artifact": "05_threshold_cost_analysis.csv"
+  },
+  "dataset_structure": {
+    "total_transactions": 3000,
+    "total_columns": 25,
+    "target_column": "fraud",
+    "identifier_column": "transaction_id",
+    "fraud_cases": 364,
+    "legitimate_cases": 2636,
+    "fraud_prevalence_pct": 12.1333,
+    "class_imbalance_ratio": "7.24:1",
+    "stratified_partitions": {
+      "development": {
+        "samples": 1800,
+        "fraud_count": 218,
+        "fraud_pct": 12.1111
+      },
+      "policy_validation": {
+        "samples": 600,
+        "fraud_count": 73,
+        "fraud_pct": 12.1667
+      },
+      "final_test": {
+        "samples": 600,
+        "fraud_count": 73,
+        "fraud_pct": 12.1667
+      }
+    },
+    "quarantine_protocol": "Zero development, feature engineering, tuning, calibration, or threshold selection used final test."
+  },
+  "data_quality_forensics": {
+    "exact_duplicate_rows": 0,
+    "duplicate_transaction_ids": 0,
+    "negative_numerical_values": 0,
+    "invalid_hours": 0,
+    "invalid_days_of_week": 0,
+    "logical_constraint_violations": 0,
+    "missingness_summary": [
+      {
+        "feature": "authentication_level",
+        "missing_count": 161,
+        "missing_pct": 8.94,
+        "observed_count": 1639,
+        "fraud_count_missing": 33,
+        "fraud_rate_missing_pct": 20.5,
+        "fraud_count_observed": 185,
+        "fraud_rate_observed_pct": 11.29,
+        "fraud_rate_diff_pct": 9.21,
+        "p_value_fisher": 0.00139,
+        "odds_ratio": 2.026,
+        "cramers_v": 0.0776,
+        "is_significant_05": true,
+        "predictive_missingness_interpretation": "Statistically significant association (p=0.0014, OR=2.03). Missingness is predictive (MNAR/MAR candidate); fraud rate is elevated by 9.21%."
+      },
+      {
+        "feature": "distance_from_usual_location_km",
+        "missing_count": 43,
+        "missing_pct": 2.39,
+        "observed_count": 1757,
+        "fraud_count_missing": 4,
+        "fraud_rate_missing_pct": 9.3,
+        "fraud_count_observed": 214,
+        "fraud_rate_observed_pct": 12.18,
+        "fraud_rate_diff_pct": -2.88,
+        "p_value_fisher": 0.81212,
+        "odds_ratio": 0.74,
+        "cramers_v": 0.0079,
+        "is_significant_05": false,
+        "predictive_missingness_interpretation": "No statistically significant difference (p=0.8121, OR=0.74). Missingness appears non-informative (MCAR candidate)."
+      },
+      {
+        "feature": "merchant_risk_score",
+        "missing_count": 33,
+        "missing_pct": 1.83,
+        "observed_count": 1767,
+        "fraud_count_missing": 0,
+        "fraud_rate_missing_pct": 0.0,
+        "fraud_count_observed": 218,
+        "fraud_rate_observed_pct": 12.34,
+        "fraud_rate_diff_pct": -12.34,
+        "p_value_fisher": 0.02694,
+        "odds_ratio": 0.0,
+        "cramers_v": 0.0444,
+        "is_significant_05": true,
+        "predictive_missingness_interpretation": "Statistically significant association (p=0.0269, OR=0.00). Missingness is predictive (MNAR/MAR candidate); fraud rate is suppressed by 12.34%."
+      },
+      {
+        "feature": "login_to_transaction_minutes",
+        "missing_count": 38,
+        "missing_pct": 2.11,
+        "observed_count": 1762,
+        "fraud_count_missing": 4,
+        "fraud_rate_missing_pct": 10.53,
+        "fraud_count_observed": 214,
+        "fraud_rate_observed_pct": 12.15,
+        "fraud_rate_diff_pct": -1.62,
+        "p_value_fisher": 1.0,
+        "odds_ratio": 0.851,
+        "cramers_v": 0.0012,
+        "is_significant_05": false,
+        "predictive_missingness_interpretation": "No statistically significant difference (p=1.0000, OR=0.85). Missingness appears non-informative (MCAR candidate)."
+      },
+      {
+        "feature": "transaction_amount",
+        "missing_count": 32,
+        "missing_pct": 1.78,
+        "observed_count": 1768,
+        "fraud_count_missing": 2,
+        "fraud_rate_missing_pct": 6.25,
+        "fraud_count_observed": 216,
+        "fraud_rate_observed_pct": 12.22,
+        "fraud_rate_diff_pct": -5.97,
+        "p_value_fisher": 0.41817,
+        "odds_ratio": 0.479,
+        "cramers_v": 0.0177,
+        "is_significant_05": false,
+        "predictive_missingness_interpretation": "No statistically significant difference (p=0.4182, OR=0.48). Missingness appears non-informative (MCAR candidate)."
+      },
+      {
+        "feature": "ip_risk_score",
+        "missing_count": 21,
+        "missing_pct": 1.17,
+        "observed_count": 1779,
+        "fraud_count_missing": 3,
+        "fraud_rate_missing_pct": 14.29,
+        "fraud_count_observed": 215,
+        "fraud_rate_observed_pct": 12.09,
+        "fraud_rate_diff_pct": 2.2,
+        "p_value_fisher": 0.73388,
+        "odds_ratio": 1.212,
+        "cramers_v": 0.0,
+        "is_significant_05": false,
+        "predictive_missingness_interpretation": "No statistically significant difference (p=0.7339, OR=1.21). Missingness appears non-informative (MCAR candidate)."
+      }
+    ],
+    "data_quality_checks": [
+      {
+        "check_category": "Uniqueness",
+        "rule_description": "Unique transaction_id",
+        "violation_count": 0,
+        "status": "PASS",
+        "details": "0 duplicate transaction IDs found."
+      },
+      {
+        "check_category": "Uniqueness",
+        "rule_description": "Zero exact duplicate rows across all features",
+        "violation_count": 0,
+        "status": "PASS",
+        "details": "0 exact duplicate rows identified."
+      },
+      {
+        "check_category": "Range Boundary",
+        "rule_description": "Hour strictly in range [0, 23]",
+        "violation_count": 0,
+        "status": "PASS",
+        "details": "0 hour values out of bounds."
+      },
+      {
+        "check_category": "Range Boundary",
+        "rule_description": "Day of week strictly in range [0, 6]",
+        "violation_count": 0,
+        "status": "PASS",
+        "details": "0 day_of_week values out of bounds."
+      },
+      {
+        "check_category": "Non-Negativity",
+        "rule_description": "transaction_amount must be non-negative (>= 0)",
+        "violation_count": 0,
+        "status": "PASS",
+        "details": "0 negative entries found in transaction_amount."
+      },
+      {
+        "check_category": "Non-Negativity",
+        "rule_description": "distance_from_usual_location_km must be non-negative (>= 0)",
+        "violation_count": 0,
+        "status": "PASS",
+        "details": "0 negative entries found in distance_from_usual_location_km."
+      },
+      {
+        "check_category": "Non-Negativity",
+        "rule_description": "transactions_last_1h must be non-negative (>= 0)",
+        "violation_count": 0,
+        "status": "PASS",
+        "details": "0 negative entries found in transactions_last_1h."
+      },
+      {
+        "check_category": "Non-Negativity",
+        "rule_description": "transactions_last_24h must be non-negative (>= 0)",
+        "violation_count": 0,
+        "status": "PASS",
+        "details": "0 negative entries found in transactions_last_24h."
+      },
+      {
+        "check_category": "Non-Negativity",
+        "rule_description": "account_age_days must be non-negative (>= 0)",
+        "violation_count": 0,
+        "status": "PASS",
+        "details": "0 negative entries found in account_age_days."
+      },
+      {
+        "check_category": "Non-Negativity",
+        "rule_description": "failed_logins_24h must be non-negative (>= 0)",
+        "violation_count": 0,
+        "status": "PASS",
+        "details": "0 negative entries found in failed_logins_24h."
+      },
+      {
+        "check_category": "Non-Negativity",
+        "rule_description": "prior_chargebacks must be non-negative (>= 0)",
+        "violation_count": 0,
+        "status": "PASS",
+        "details": "0 negative entries found in prior_chargebacks."
+      },
+      {
+        "check_category": "Non-Negativity",
+        "rule_description": "device_age_days must be non-negative (>= 0)",
+        "violation_count": 0,
+        "status": "PASS",
+        "details": "0 negative entries found in device_age_days."
+      },
+      {
+        "check_category": "Non-Negativity",
+        "rule_description": "email_age_days must be non-negative (>= 0)",
+        "violation_count": 0,
+        "status": "PASS",
+        "details": "0 negative entries found in email_age_days."
+      },
+      {
+        "check_category": "Non-Negativity",
+        "rule_description": "login_to_transaction_minutes must be non-negative (>= 0)",
+        "violation_count": 0,
+        "status": "PASS",
+        "details": "0 negative entries found in login_to_transaction_minutes."
+      },
+      {
+        "check_category": "Range Boundary",
+        "rule_description": "merchant_risk_score must be bounded in [0.0, 1.0]",
+        "violation_count": 0,
+        "status": "PASS",
+        "details": "0 values outside [0.0, 1.0] for merchant_risk_score."
+      },
+      {
+        "check_category": "Range Boundary",
+        "rule_description": "ip_risk_score must be bounded in [0.0, 1.0]",
+        "violation_count": 0,
+        "status": "PASS",
+        "details": "0 values outside [0.0, 1.0] for ip_risk_score."
+      },
+      {
+        "check_category": "Binary Domain",
+        "rule_description": "new_device must only contain values in {0, 1}",
+        "violation_count": 0,
+        "status": "PASS",
+        "details": "0 non-binary values in new_device."
+      },
+      {
+        "check_category": "Binary Domain",
+        "rule_description": "billing_address_mismatch must only contain values in {0, 1}",
+        "violation_count": 0,
+        "status": "PASS",
+        "details": "0 non-binary values in billing_address_mismatch."
+      },
+      {
+        "check_category": "Binary Domain",
+        "rule_description": "fraud must only contain values in {0, 1}",
+        "violation_count": 0,
+        "status": "PASS",
+        "details": "0 non-binary values in fraud."
+      },
+      {
+        "check_category": "Relational Logic",
+        "rule_description": "transactions_last_1h <= transactions_last_24h",
+        "violation_count": 0,
+        "status": "PASS",
+        "details": "0 records where 1h velocity exceeds 24h velocity."
+      },
+      {
+        "check_category": "Type Integrity",
+        "rule_description": "transactions_last_1h must be integer count values",
+        "violation_count": 0,
+        "status": "PASS",
+        "details": "0 non-integer values detected in transactions_last_1h."
+      },
+      {
+        "check_category": "Type Integrity",
+        "rule_description": "transactions_last_24h must be integer count values",
+        "violation_count": 0,
+        "status": "PASS",
+        "details": "0 non-integer values detected in transactions_last_24h."
+      },
+      {
+        "check_category": "Type Integrity",
+        "rule_description": "failed_logins_24h must be integer count values",
+        "violation_count": 0,
+        "status": "PASS",
+        "details": "0 non-integer values detected in failed_logins_24h."
+      },
+      {
+        "check_category": "Type Integrity",
+        "rule_description": "prior_chargebacks must be integer count values",
+        "violation_count": 0,
+        "status": "PASS",
+        "details": "0 non-integer values detected in prior_chargebacks."
+      },
+      {
+        "check_category": "Type Integrity",
+        "rule_description": "account_age_days must be integer count values",
+        "violation_count": 0,
+        "status": "PASS",
+        "details": "0 non-integer values detected in account_age_days."
+      },
+      {
+        "check_category": "Type Integrity",
+        "rule_description": "device_age_days must be integer count values",
+        "violation_count": 0,
+        "status": "PASS",
+        "details": "0 non-integer values detected in device_age_days."
+      },
+      {
+        "check_category": "Type Integrity",
+        "rule_description": "email_age_days must be integer count values",
+        "violation_count": 0,
+        "status": "PASS",
+        "details": "0 non-integer values detected in email_age_days."
+      },
+      {
+        "check_category": "Domain Context",
+        "rule_description": "Flag card_presence='Present' with channel='E-commerce'",
+        "violation_count": 425,
+        "status": "FLAG_SUSPICIOUS",
+        "details": "425 records exhibit physical card present in e-commerce transactions."
+      },
+      {
+        "check_category": "Domain Context",
+        "rule_description": "Flag instant login (0 min) combined with failed_logins_24h > 0",
+        "violation_count": 0,
+        "status": "PASS",
+        "details": "0 transactions executed within 0 minutes of login with prior failed attempts."
+      }
+    ],
+    "predictive_missingness_evidence": {
+      "authentication_level": {
+        "missing_count": 289,
+        "missing_fraud_rate_pct": 20.5,
+        "observed_strong_auth_fraud_rate_pct": 10.37,
+        "fisher_exact_p_value": 0.00139,
+        "odds_ratio": 2.03,
+        "treatment": "Imputed as 'Missing' category; preserved as adverse risk signal."
+      },
+      "distance_from_usual_location_km": {
+        "missing_count": 75,
+        "treatment": "Median imputation with missingness indicator."
+      },
+      "merchant_risk_score": {
+        "missing_count": 60,
+        "treatment": "Median imputation with missingness indicator."
+      }
+    }
+  },
+  "eda_findings": {
+    "key_risk_multipliers": [
+      {
+        "signal": "Missing authentication level",
+        "fraud_rate": "20.50%",
+        "baseline": "10.37% (strong)",
+        "relative_risk": "2.0x"
+      },
+      {
+        "signal": "Extreme 1-hour velocity (>8.5 txns)",
+        "fraud_rate": "45.45%",
+        "baseline": "12.11%",
+        "relative_risk": "3.75x"
+      },
+      {
+        "signal": "Transaction amount outliers (>$243)",
+        "fraud_rate": "22.69%",
+        "baseline": "12.11%",
+        "relative_risk": "1.87x"
+      },
+      {
+        "signal": "New device + extreme distance (>69 km)",
+        "fraud_rate": "23.17%",
+        "baseline": "8.22% (existing/near)",
+        "relative_risk": "2.8x"
+      },
+      {
+        "signal": "E-commerce + missing authentication",
+        "fraud_rate": "27.12%",
+        "baseline": "12.11%",
+        "relative_risk": "2.24x"
+      }
+    ],
+    "figures": {
+      "categorical_eda": "reports/figures/01_missingness_forensics.png",
+      "outlier_distributions": "reports/figures/02_extreme_value_distributions.png",
+      "bivariate_interactions": "reports/figures/eda_16_interaction_new_device_distance.png"
+    }
+  },
+  "feature_engineering": {
+    "total_features_after_engineering": 41,
+    "total_columns_after_onehot": 85,
+    "cv_comparison": {
+      "baseline_pr_auc": 0.2248,
+      "engineered_pr_auc": 0.2316,
+      "recall_gain_at_t_0_20": "+2.91%",
+      "f1_gain_at_t_0_20": "+1.40%"
+    },
+    "top_engineered_features": [
+      "login_velocity_interaction",
+      "combined_merchant_ip_risk",
+      "amount_merchant_risk_interaction",
+      "log_transaction_amount",
+      "amount_per_recent_transaction"
+    ]
+  },
+  "modeling_and_imbalance": {
+    "model_comparison": [
+      {
+        "Model": "LR_Default",
+        "PR_AUC_mean": 0.2321,
+        "PR_AUC_std": 0.039,
+        "ROC_AUC_mean": 0.6501,
+        "ROC_AUC_std": 0.0424,
+        "Balanced_Acc_mean": 0.5862,
+        "Accuracy_mean": 0.7872,
+        "Precision_mean": 0.2296,
+        "Recall_mean": 0.321,
+        "F1_mean": 0.267,
+        "Fit_Time_sec": 0.073
+      },
+      {
+        "Model": "RF_Tuned",
+        "PR_AUC_mean": 0.2316,
+        "PR_AUC_std": 0.0226,
+        "ROC_AUC_mean": 0.6607,
+        "ROC_AUC_std": 0.0262,
+        "Balanced_Acc_mean": 0.5931,
+        "Accuracy_mean": 0.7744,
+        "Precision_mean": 0.2248,
+        "Recall_mean": 0.3537,
+        "F1_mean": 0.2748,
+        "Fit_Time_sec": 0.447
+      },
+      {
+        "Model": "LR_Tuned",
+        "PR_AUC_mean": 0.224,
+        "PR_AUC_std": 0.0374,
+        "ROC_AUC_mean": 0.6489,
+        "ROC_AUC_std": 0.0353,
+        "Balanced_Acc_mean": 0.5488,
+        "Accuracy_mean": 0.2728,
+        "Precision_mean": 0.1336,
+        "Recall_mean": 0.9131,
+        "F1_mean": 0.2331,
+        "Fit_Time_sec": 0.485
+      },
+      {
+        "Model": "LR_ClassWeighted",
+        "PR_AUC_mean": 0.2234,
+        "PR_AUC_std": 0.0366,
+        "ROC_AUC_mean": 0.647,
+        "ROC_AUC_std": 0.0344,
+        "Balanced_Acc_mean": 0.5545,
+        "Accuracy_mean": 0.2967,
+        "Precision_mean": 0.1355,
+        "Recall_mean": 0.8947,
+        "F1_mean": 0.2354,
+        "Fit_Time_sec": 0.057
+      },
+      {
+        "Model": "LR_ROS",
+        "PR_AUC_mean": 0.2225,
+        "PR_AUC_std": 0.0349,
+        "ROC_AUC_mean": 0.6469,
+        "ROC_AUC_std": 0.0335,
+        "Balanced_Acc_mean": 0.5505,
+        "Accuracy_mean": 0.3033,
+        "Precision_mean": 0.1346,
+        "Recall_mean": 0.8765,
+        "F1_mean": 0.2334,
+        "Fit_Time_sec": 0.065
+      },
+      {
+        "Model": "RF_Default",
+        "PR_AUC_mean": 0.2157,
+        "PR_AUC_std": 0.0195,
+        "ROC_AUC_mean": 0.6567,
+        "ROC_AUC_std": 0.0319,
+        "Balanced_Acc_mean": 0.5881,
+        "Accuracy_mean": 0.7517,
+        "Precision_mean": 0.2071,
+        "Recall_mean": 0.3721,
+        "F1_mean": 0.2661,
+        "Fit_Time_sec": 0.26
+      },
+      {
+        "Model": "HGB_Tuned",
+        "PR_AUC_mean": 0.2156,
+        "PR_AUC_std": 0.0364,
+        "ROC_AUC_mean": 0.6395,
+        "ROC_AUC_std": 0.0296,
+        "Balanced_Acc_mean": 0.5364,
+        "Accuracy_mean": 0.8522,
+        "Precision_mean": 0.2644,
+        "Recall_mean": 0.1196,
+        "F1_mean": 0.1638,
+        "Fit_Time_sec": 0.779
+      },
+      {
+        "Model": "HGB_Default",
+        "PR_AUC_mean": 0.2156,
+        "PR_AUC_std": 0.0364,
+        "ROC_AUC_mean": 0.6395,
+        "ROC_AUC_std": 0.0296,
+        "Balanced_Acc_mean": 0.5364,
+        "Accuracy_mean": 0.8522,
+        "Precision_mean": 0.2644,
+        "Recall_mean": 0.1196,
+        "F1_mean": 0.1638,
+        "Fit_Time_sec": 0.614
+      },
+      {
+        "Model": "LR_SMOTE",
+        "PR_AUC_mean": 0.2115,
+        "PR_AUC_std": 0.0281,
+        "ROC_AUC_mean": 0.6299,
+        "ROC_AUC_std": 0.0333,
+        "Balanced_Acc_mean": 0.5503,
+        "Accuracy_mean": 0.3278,
+        "Precision_mean": 0.1352,
+        "Recall_mean": 0.8441,
+        "F1_mean": 0.233,
+        "Fit_Time_sec": 0.08
+      },
+      {
+        "Model": "HGB_ClassWeighted",
+        "PR_AUC_mean": 0.2035,
+        "PR_AUC_std": 0.0342,
+        "ROC_AUC_mean": 0.6309,
+        "ROC_AUC_std": 0.0268,
+        "Balanced_Acc_mean": 0.5643,
+        "Accuracy_mean": 0.8006,
+        "Precision_mean": 0.219,
+        "Recall_mean": 0.2525,
+        "F1_mean": 0.2337,
+        "Fit_Time_sec": 2.834
+      },
+      {
+        "Model": "RF_SMOTE",
+        "PR_AUC_mean": 0.1966,
+        "PR_AUC_std": 0.025,
+        "ROC_AUC_mean": 0.6279,
+        "ROC_AUC_std": 0.028,
+        "Balanced_Acc_mean": 0.5772,
+        "Accuracy_mean": 0.5694,
+        "Precision_mean": 0.1569,
+        "Recall_mean": 0.5873,
+        "F1_mean": 0.2474,
+        "Fit_Time_sec": 0.28
+      },
+      {
+        "Model": "RF_ClassWeighted",
+        "PR_AUC_mean": 0.1902,
+        "PR_AUC_std": 0.0121,
+        "ROC_AUC_mean": 0.6447,
+        "ROC_AUC_std": 0.0175,
+        "Balanced_Acc_mean": 0.6025,
+        "Accuracy_mean": 0.4994,
+        "Precision_mean": 0.1602,
+        "Recall_mean": 0.7385,
+        "F1_mean": 0.2631,
+        "Fit_Time_sec": 0.259
+      }
+    ],
+    "selected_primary_model": {
+      "name": "RF_Tuned (Tuned Random Forest)",
+      "pr_auc_mean": 0.2316,
+      "pr_auc_std": 0.0226,
+      "roc_auc_mean": 0.6607,
+      "roc_auc_std": 0.0262,
+      "f1_mean": 0.2748,
+      "hyperparameters": {
+        "n_estimators": 200,
+        "max_depth": 8,
+        "min_samples_split": 10,
+        "min_samples_leaf": 4,
+        "max_features": "sqrt"
+      },
+      "justification": "Highest non-linear PR-AUC, highest ROC-AUC, lowest cross-fold variance (std=0.0226), and natural resistance to monotonic scaling."
+    },
+    "imbalanced_learning_finding": "Synthetic oversampling (SMOTE) degraded PR-AUC from 0.2316 to 0.1966 in Random Forest due to synthetic noise along overlapping continuous decision boundaries. Post-hoc probability calibration and algorithmic threshold tuning vastly outperform resampling."
+  },
+  "probability_calibration": {
+    "calibration_comparison": [
+      {
+        "Method": "Uncalibrated",
+        "Brier_mean": 0.10301652968605439,
+        "Brier_std": 0.0026723537064991826,
+        "LogLoss_mean": 0.35451118892932587,
+        "LogLoss_std": 0.009463773538456148,
+        "ECE_mean": 0.029157047119547114,
+        "ECE_std": 0.014785989595973782,
+        "ROC_AUC_mean": 0.6606974228428584,
+        "ROC_AUC_std": 0.029331534824442947,
+        "PR_AUC_mean": 0.231563312325683,
+        "PR_AUC_std": 0.025261165516429318
+      },
+      {
+        "Method": "Sigmoid",
+        "Brier_mean": 0.10272033503300326,
+        "Brier_std": 0.0017741169780335047,
+        "LogLoss_mean": 0.353099081657965,
+        "LogLoss_std": 0.006496655538730568,
+        "ECE_mean": 0.029865437676601724,
+        "ECE_std": 0.00422680522460798,
+        "ROC_AUC_mean": 0.6627332067068743,
+        "ROC_AUC_std": 0.043739534053916854,
+        "PR_AUC_mean": 0.2335449589104929,
+        "PR_AUC_std": 0.024213962740312584
+      },
+      {
+        "Method": "Isotonic",
+        "Brier_mean": 0.1030265618104873,
+        "Brier_std": 0.00281081767971367,
+        "LogLoss_mean": 0.3532587240736115,
+        "LogLoss_std": 0.01036319265754321,
+        "ECE_mean": 0.019811231898356367,
+        "ECE_std": 0.004136475211703739,
+        "ROC_AUC_mean": 0.6598821543857885,
+        "ROC_AUC_std": 0.04245346251518104,
+        "PR_AUC_mean": 0.22935718899680313,
+        "PR_AUC_std": 0.03150101817929975
+      }
+    ],
+    "selected_method": {
+      "method": "Sigmoid (Platt Scaling) via CalibratedClassifierCV(cv=5)",
+      "brier_score_mean": 0.1027,
+      "brier_score_std": 0.0018,
+      "log_loss_mean": 0.3531,
+      "log_loss_std": 0.0065,
+      "expected_calibration_error_mean": 0.0299,
+      "concatenated_oof_ece": 0.0178,
+      "justification": "Sigmoid scaling improved Brier score (0.1027 vs 0.1030) and Log Loss (0.3531 vs 0.3545) while exhibiting lowest cross-fold variance. Isotonic regression suffered from step-function discretization plateaus and higher out-of-fold variance on sparse fraud cases."
+    },
+    "figures": {
+      "combined_curves": "reports/figures/07_calibration_comparison_curves.png",
+      "probability_densities": "reports/figures/08_calibrated_probability_distributions.png"
+    }
+  },
+  "business_cost_optimization": {
+    "primary_scenario": "Scenario B: Balanced Financial & Operational Tradeoff",
+    "cost_parameters_cu": {
+      "false_positive_block_penalty": 50.0,
+      "manual_review_base_wage": 6.0,
+      "manual_review_friction": 3.0,
+      "block_admin_overhead": 1.5,
+      "fraud_loss_multiplier": 1.0,
+      "chargeback_fixed_fee": 10.0,
+      "review_leakage_rate": 0.15,
+      "fallback_amount": 150.0
+    },
+    "frozen_operational_thresholds": {
+      "review_threshold": 0.1,
+      "block_threshold": 0.36
+    },
+    "policy_validation_comparison": [
+      {
+        "review_threshold": 0.5,
+        "block_threshold": 0.5,
+        "total_cost": 12119.54,
+        "cost_per_1k": 20199.233333333337,
+        "fraud_capture_rate": 0.0,
+        "review_workload_pct": 0.0,
+        "block_rate_pct": 0.0,
+        "fraud_approved": 73.0,
+        "fraud_reviewed": 0.0,
+        "fraud_blocked": 0.0,
+        "legit_approved": 527.0,
+        "legit_reviewed": 0.0,
+        "legit_blocked": 0.0,
+        "n_approve": 600.0,
+        "n_review": 0.0,
+        "n_block": 0.0,
+        "tp": 0.0,
+        "fp": 0.0,
+        "fn": 73.0,
+        "tn": 527.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "policy_name": "Default Binary (t=0.50)",
+        "cost_savings_vs_default": 0.0,
+        "savings_pct": 0.0
+      },
+      {
+        "review_threshold": 0.2,
+        "block_threshold": 0.2,
+        "total_cost": 9424.3,
+        "cost_per_1k": 15707.166666666666,
+        "fraud_capture_rate": 0.136986301369863,
+        "review_workload_pct": 0.0,
+        "block_rate_pct": 8.333333333333332,
+        "fraud_approved": 63.0,
+        "fraud_reviewed": 0.0,
+        "fraud_blocked": 10.0,
+        "legit_approved": 487.0,
+        "legit_reviewed": 0.0,
+        "legit_blocked": 40.0,
+        "n_approve": 550.0,
+        "n_review": 0.0,
+        "n_block": 50.0,
+        "tp": 10.0,
+        "fp": 40.0,
+        "fn": 63.0,
+        "tn": 487.0,
+        "precision": 0.2,
+        "recall": 0.136986301369863,
+        "f1": 0.16260162601626016,
+        "policy_name": "Triage Binary (t=0.20)",
+        "cost_savings_vs_default": 2695.2400000000016,
+        "savings_pct": 22.238797842162338
+      },
+      {
+        "review_threshold": 0.19,
+        "block_threshold": 0.19,
+        "total_cost": 8785.23,
+        "cost_per_1k": 14642.05,
+        "fraud_capture_rate": 0.1917808219178082,
+        "review_workload_pct": 0.0,
+        "block_rate_pct": 10.166666666666666,
+        "fraud_approved": 59.0,
+        "fraud_reviewed": 0.0,
+        "fraud_blocked": 14.0,
+        "legit_approved": 480.0,
+        "legit_reviewed": 0.0,
+        "legit_blocked": 47.0,
+        "n_approve": 539.0,
+        "n_review": 0.0,
+        "n_block": 61.0,
+        "tp": 14.0,
+        "fp": 47.0,
+        "fn": 59.0,
+        "tn": 480.0,
+        "precision": 0.22950819672131148,
+        "recall": 0.1917808219178082,
+        "f1": 0.20895522388059698,
+        "policy_name": "Optimal Binary (t=0.19)",
+        "cost_savings_vs_default": 3334.3100000000013,
+        "savings_pct": 27.511852760088264
+      },
+      {
+        "review_threshold": 0.1,
+        "block_threshold": 0.36,
+        "total_cost": 5520.6465,
+        "cost_per_1k": 9201.0775,
+        "fraud_capture_rate": 0.7397260273972602,
+        "review_workload_pct": 52.83333333333333,
+        "block_rate_pct": 1.0,
+        "fraud_approved": 19.0,
+        "fraud_reviewed": 51.0,
+        "fraud_blocked": 3.0,
+        "legit_approved": 258.0,
+        "legit_reviewed": 266.0,
+        "legit_blocked": 3.0,
+        "n_approve": 277.0,
+        "n_review": 317.0,
+        "n_block": 6.0,
+        "tp": 54.0,
+        "fp": 269.0,
+        "fn": 19.0,
+        "tn": 258.0,
+        "precision": 0.16718266253869968,
+        "recall": 0.7397260273972602,
+        "f1": 0.2727272727272727,
+        "policy_name": "Two-Threshold (Rev=0.10, Blk=0.36)",
+        "cost_savings_vs_default": 6598.893500000001,
+        "savings_pct": 54.44838252936993
+      }
+    ],
+    "multi_scenario_summary": [
+      {
+        "scenario": "Scenario A: Fraud-Loss-Dominant",
+        "default_cost_1k": 20807.56666666667,
+        "optimal_cost_1k": 7556.956666666665,
+        "optimal_review_th": 0.1,
+        "optimal_block_th": 0.32,
+        "optimal_fraud_capture": 73.97260273972603,
+        "optimal_review_pct": 51.83333333333333,
+        "cost_savings_pct": 63.68168951359042
+      },
+      {
+        "scenario": "Scenario B: Balanced Financial & Operational Tradeoff (Primary Baseline)",
+        "default_cost_1k": 20199.233333333337,
+        "optimal_cost_1k": 9201.0775,
+        "optimal_review_th": 0.1,
+        "optimal_block_th": 0.36,
+        "optimal_fraud_capture": 73.97260273972603,
+        "optimal_review_pct": 52.83333333333333,
+        "cost_savings_pct": 54.44838252936993
+      },
+      {
+        "scenario": "Scenario C: Customer-Friction-Dominant",
+        "default_cost_1k": 16743.515000000003,
+        "optimal_cost_1k": 10825.000999999998,
+        "optimal_review_th": 0.12,
+        "optimal_block_th": 0.46,
+        "optimal_fraud_capture": 53.42465753424658,
+        "optimal_review_pct": 35.333333333333336,
+        "cost_savings_pct": 35.34809745743353
+      }
+    ],
+    "measured_findings": {
+      "default_binary_cost_1k": 20199.23,
+      "optimal_three_action_cost_1k": 9201.08,
+      "cost_savings_pct": 54.45,
+      "fraud_capture_pct": 73.97,
+      "review_workload_pct": 52.83,
+      "legit_blocked_count": 3
+    },
+    "figures": {
+      "binary_cost_curve": "reports/figures/09_binary_threshold_cost_curve.png",
+      "two_th_surface_heatmap": "reports/figures/10_two_threshold_cost_surface_heatmap.png",
+      "tradeoff_pareto": "reports/figures/11_fraud_capture_vs_review_workload.png",
+      "sensitivity_multipanel": "reports/figures/12_cost_sensitivity_multipanel.png"
+    }
+  },
+  "explainability_and_attributions": {
+    "top_global_predictors": [
+      {
+        "feature": "login_velocity_interaction",
+        "mean_abs_shap": 0.01620591371666436,
+        "gini_importance": 0.05346915893326632,
+        "shap_rank": 1,
+        "is_engineered": false
+      },
+      {
+        "feature": "combined_merchant_ip_risk",
+        "mean_abs_shap": 0.009801487578680764,
+        "gini_importance": 0.03457684650817293,
+        "shap_rank": 2,
+        "is_engineered": true
+      },
+      {
+        "feature": "login_to_transaction_minutes",
+        "mean_abs_shap": 0.0076859519977926505,
+        "gini_importance": 0.04149800745344044,
+        "shap_rank": 3,
+        "is_engineered": false
+      },
+      {
+        "feature": "amount_merchant_risk_interaction",
+        "mean_abs_shap": 0.007603329648475174,
+        "gini_importance": 0.034141369112897745,
+        "shap_rank": 4,
+        "is_engineered": true
+      },
+      {
+        "feature": "log_transaction_amount",
+        "mean_abs_shap": 0.0075841067608287205,
+        "gini_importance": 0.035386839834945,
+        "shap_rank": 5,
+        "is_engineered": true
+      },
+      {
+        "feature": "normalized_amount",
+        "mean_abs_shap": 0.00751054807543665,
+        "gini_importance": 0.03455934092320016,
+        "shap_rank": 6,
+        "is_engineered": false
+      },
+      {
+        "feature": "ip_risk_score",
+        "mean_abs_shap": 0.007391955596213388,
+        "gini_importance": 0.03464562011399149,
+        "shap_rank": 7,
+        "is_engineered": false
+      },
+      {
+        "feature": "account_age_days",
+        "mean_abs_shap": 0.007219612446148624,
+        "gini_importance": 0.03864083316061462,
+        "shap_rank": 8,
+        "is_engineered": false
+      },
+      {
+        "feature": "amount_per_recent_transaction",
+        "mean_abs_shap": 0.0068536145002164135,
+        "gini_importance": 0.033449960134016216,
+        "shap_rank": 9,
+        "is_engineered": true
+      },
+      {
+        "feature": "new_device",
+        "mean_abs_shap": 0.006782257874331424,
+        "gini_importance": 0.0072179005867461735,
+        "shap_rank": 10,
+        "is_engineered": false
+      }
+    ],
+    "fold_stability_top_5": [
+      {
+        "feature": "login_velocity_interaction",
+        "mean_importance": 0.04704789461055889,
+        "std_importance": 0.004136189090709416,
+        "cv_pct_stability": 8.791443538434422,
+        "rank": 1
+      },
+      {
+        "feature": "combined_merchant_ip_risk",
+        "mean_importance": 0.03793860006679352,
+        "std_importance": 0.0021908972466449126,
+        "cv_pct_stability": 5.7748500018126325,
+        "rank": 2
+      },
+      {
+        "feature": "login_to_transaction_minutes",
+        "mean_importance": 0.03717012418828543,
+        "std_importance": 0.0027903985231484208,
+        "cv_pct_stability": 7.507100350307265,
+        "rank": 3
+      },
+      {
+        "feature": "amount_merchant_risk_interaction",
+        "mean_importance": 0.03703922548689785,
+        "std_importance": 0.002888262911785728,
+        "cv_pct_stability": 7.797849101373392,
+        "rank": 4
+      },
+      {
+        "feature": "merchant_ip_risk_difference",
+        "mean_importance": 0.03544303726292111,
+        "std_importance": 0.002739294635561257,
+        "cv_pct_stability": 7.728724305540773,
+        "rank": 5
+      }
+    ],
+    "local_explanations": [
+      {
+        "case_type": "High-Risk Fraud",
+        "transaction_id": "TXN5001964",
+        "actual_fraud": 1,
+        "calibrated_prob": 0.414,
+        "operational_action": "BLOCK",
+        "top_risk_increasing_factors": "normalized_amount (+0.074); log_transaction_amount (+0.065); transaction_amount (+0.051)",
+        "top_risk_decreasing_factors": "ip_risk_score (-0.010); merchant_category_Fuel (-0.010); combined_merchant_ip_risk (-0.005)",
+        "plain_language_explanation": "Transaction routed to BLOCK (calibrated fraud likelihood 41.4%). Elevated risk driven primarily by normalized_amount. Mitigated by benign signals: ip_risk_score.",
+        "waterfall_figure": "18_waterfall_high_risk_fraud.png"
+      },
+      {
+        "case_type": "High-Risk Legitimate (False Alert)",
+        "transaction_id": "TXN5001923",
+        "actual_fraud": 0,
+        "calibrated_prob": 0.4576,
+        "operational_action": "BLOCK",
+        "top_risk_increasing_factors": "login_velocity_interaction (+0.161); transactions_last_24h (+0.098); login_to_transaction_minutes (+0.052)",
+        "top_risk_decreasing_factors": "amount_per_recent_transaction (-0.009); combined_merchant_ip_risk (-0.006); card_presence_Not present (-0.004)",
+        "plain_language_explanation": "Transaction routed to BLOCK (calibrated fraud likelihood 45.8%). Elevated risk driven primarily by login_velocity_interaction. Mitigated by benign signals: amount_per_recent_transaction.",
+        "waterfall_figure": "18_waterfall_high_risk_legitimate_false_alert.png"
+      },
+      {
+        "case_type": "Medium-Risk (Borderline Review)",
+        "transaction_id": "TXN5001553",
+        "actual_fraud": 0,
+        "calibrated_prob": 0.1136,
+        "operational_action": "MANUAL REVIEW",
+        "top_risk_increasing_factors": "billing_distance_interaction (+0.022); transactions_last_24h (+0.020); previous_23h_transactions (+0.020)",
+        "top_risk_decreasing_factors": "combined_merchant_ip_risk (-0.009); velocity_ratio (-0.009); ip_risk_score (-0.007)",
+        "plain_language_explanation": "Transaction routed to MANUAL REVIEW (calibrated fraud likelihood 11.4%). Elevated risk driven primarily by billing_distance_interaction. Mitigated by benign signals: combined_merchant_ip_risk.",
+        "waterfall_figure": "18_waterfall_medium_risk_borderline_review.png"
+      },
+      {
+        "case_type": "Low-Risk Fraud (Undetected Leakage)",
+        "transaction_id": "TXN5002794",
+        "actual_fraud": 1,
+        "calibrated_prob": 0.0713,
+        "operational_action": "APPROVE",
+        "top_risk_increasing_factors": "merchant_category_Restaurants (+0.004); device_age_days (+0.004); country_USA (+0.002)",
+        "top_risk_decreasing_factors": "login_velocity_interaction (-0.009); merchant_risk_score (-0.006); normalized_amount (-0.006)",
+        "plain_language_explanation": "Transaction routed to APPROVE (calibrated fraud likelihood 7.1%). Elevated risk driven primarily by merchant_category_Restaurants. Mitigated by benign signals: login_velocity_interaction.",
+        "waterfall_figure": "18_waterfall_low_risk_fraud_undetected_leakage.png"
+      },
+      {
+        "case_type": "Low-Risk Legitimate (Seamless Approval)",
+        "transaction_id": "TXN5002344",
+        "actual_fraud": 0,
+        "calibrated_prob": 0.0632,
+        "operational_action": "APPROVE",
+        "top_risk_increasing_factors": "velocity_ratio (+0.004); email_age_days (+0.002); channel_Mobile App (+0.002)",
+        "top_risk_decreasing_factors": "combined_merchant_ip_risk (-0.008); log_transaction_amount (-0.007); normalized_amount (-0.006)",
+        "plain_language_explanation": "Transaction routed to APPROVE (calibrated fraud likelihood 6.3%). Elevated risk driven primarily by velocity_ratio. Mitigated by benign signals: combined_merchant_ip_risk.",
+        "waterfall_figure": "18_waterfall_low_risk_legitimate_seamless_approval.png"
+      }
+    ],
+    "technical_boundary_distinction": "TreeSHAP explains additive log-odds of the base Random Forest estimator. Calibrated probabilities represent a monotonic Platt sigmoid mapping sigma(A*f(x) + B). SHAP values are not claimed to decompose calibrated probabilities additively.",
+    "figures": {
+      "ranked_importance": "reports/figures/13_global_feature_importance_ranked.png",
+      "beeswarm_summary": "reports/figures/14_shap_summary_beeswarm.png",
+      "waterfall_high_risk": "reports/figures/18_waterfall_high_risk_fraud.png",
+      "waterfall_false_alert": "reports/figures/18_waterfall_high_risk_legitimate_false_alert.png"
+    }
+  },
+  "robustness_and_stress_testing": {
+    "scenarios_evaluated": [
+      {
+        "scenario": "Baseline (Policy-Validation)",
+        "mean_probability": 0.12274707415689043,
+        "pct_approve": 46.166666666666664,
+        "pct_review": 52.83333333333333,
+        "pct_block": 1.0,
+        "fraud_capture_pct": 73.97260273972603,
+        "legit_blocked_count": 3,
+        "cost_per_1k": 9201.0775,
+        "roc_auc": 0.6363234644277507,
+        "pr_auc": 0.1917191586880348,
+        "brier_score": 0.10479680342152847,
+        "recall": 0.7397260273972602,
+        "precision": 0.16718266253869968,
+        "wasserstein_drift": 0.0
+      },
+      {
+        "scenario": "Scenario 1: Amount +25%",
+        "mean_probability": 0.12691083085560947,
+        "pct_approve": 42.66666666666667,
+        "pct_review": 56.166666666666664,
+        "pct_block": 1.1666666666666667,
+        "fraud_capture_pct": 73.97260273972603,
+        "legit_blocked_count": 4,
+        "cost_per_1k": 10575.513541666667,
+        "roc_auc": 0.6182319149489225,
+        "pr_auc": 0.185350237121805,
+        "brier_score": 0.10545003513323849,
+        "recall": 0.7397260273972602,
+        "precision": 0.1569767441860465,
+        "wasserstein_drift": 0.004202413589729048
+      },
+      {
+        "scenario": "Scenario 2: Amount +50%",
+        "mean_probability": 0.1312551569478094,
+        "pct_approve": 40.166666666666664,
+        "pct_review": 58.833333333333336,
+        "pct_block": 1.0,
+        "fraud_capture_pct": 72.6027397260274,
+        "legit_blocked_count": 4,
+        "cost_per_1k": 11845.959166666666,
+        "roc_auc": 0.6109537053884744,
+        "pr_auc": 0.1899707087473811,
+        "brier_score": 0.10566034750673078,
+        "recall": 0.726027397260274,
+        "precision": 0.14763231197771587,
+        "wasserstein_drift": 0.008513399444894166
+      },
+      {
+        "scenario": "Scenario 3: Velocity Surge",
+        "mean_probability": 0.22297813294649377,
+        "pct_approve": 8.666666666666668,
+        "pct_review": 81.33333333333333,
+        "pct_block": 10.0,
+        "fraud_capture_pct": 97.26027397260275,
+        "legit_blocked_count": 53,
+        "cost_per_1k": 13947.119166666665,
+        "roc_auc": 0.5569129994021471,
+        "pr_auc": 0.1409924977759912,
+        "brier_score": 0.12333447139463644,
+        "recall": 0.9726027397260274,
+        "precision": 0.12956204379562045,
+        "wasserstein_drift": 0.10023105878960331
+      },
+      {
+        "scenario": "Scenario 4: Digital Channel Shift",
+        "mean_probability": 0.1239368169202252,
+        "pct_approve": 45.166666666666664,
+        "pct_review": 53.833333333333336,
+        "pct_block": 1.0,
+        "fraud_capture_pct": 73.97260273972603,
+        "legit_blocked_count": 4,
+        "cost_per_1k": 9381.068333333333,
+        "roc_auc": 0.6342439759819086,
+        "pr_auc": 0.18886104157228412,
+        "brier_score": 0.10506932517105713,
+        "recall": 0.7397260273972602,
+        "precision": 0.1641337386018237,
+        "wasserstein_drift": 0.0012818089713094623
+      },
+      {
+        "scenario": "Scenario 5: Numerical Missingness Spike",
+        "mean_probability": 0.12054319567793494,
+        "pct_approve": 48.333333333333336,
+        "pct_review": 50.66666666666667,
+        "pct_block": 1.0,
+        "fraud_capture_pct": 73.97260273972603,
+        "legit_blocked_count": 3,
+        "cost_per_1k": 9083.441666666668,
+        "roc_auc": 0.6407163837695926,
+        "pr_auc": 0.20511519994773214,
+        "brier_score": 0.10419507989990974,
+        "recall": 0.7397260273972602,
+        "precision": 0.17419354838709677,
+        "wasserstein_drift": 0.0025014685878112404
+      },
+      {
+        "scenario": "Scenario 6: Missing Auth Spike (+30%)",
+        "mean_probability": 0.12631698027214142,
+        "pct_approve": 43.5,
+        "pct_review": 55.50000000000001,
+        "pct_block": 1.0,
+        "fraud_capture_pct": 76.71232876712328,
+        "legit_blocked_count": 3,
+        "cost_per_1k": 9245.352499999999,
+        "roc_auc": 0.6291232356840216,
+        "pr_auc": 0.1857714621058834,
+        "brier_score": 0.10531760193857206,
+        "recall": 0.7671232876712328,
+        "precision": 0.16519174041297935,
+        "wasserstein_drift": 0.0036072304242548672
+      },
+      {
+        "scenario": "Scenario 7: Extreme Telemetry Outliers",
+        "mean_probability": 0.13732499718634478,
+        "pct_approve": 42.0,
+        "pct_review": 54.666666666666664,
+        "pct_block": 3.3333333333333335,
+        "fraud_capture_pct": 73.97260273972603,
+        "legit_blocked_count": 12,
+        "cost_per_1k": 9838.983750000001,
+        "roc_auc": 0.6064568116243404,
+        "pr_auc": 0.1894894941811268,
+        "brier_score": 0.1064627131693281,
+        "recall": 0.7397260273972602,
+        "precision": 0.15517241379310345,
+        "wasserstein_drift": 0.014577923029454338
+      },
+      {
+        "scenario": "Scenario 8: Unseen Categorical Drift",
+        "mean_probability": 0.12174221241948743,
+        "pct_approve": 47.0,
+        "pct_review": 52.0,
+        "pct_block": 1.0,
+        "fraud_capture_pct": 73.97260273972603,
+        "legit_blocked_count": 3,
+        "cost_per_1k": 9126.0775,
+        "roc_auc": 0.6355956434717058,
+        "pr_auc": 0.18958450574923277,
+        "brier_score": 0.10503698091965685,
+        "recall": 0.7397260273972602,
+        "precision": 0.16981132075471697,
+        "wasserstein_drift": 0.0010048617374029895
+      }
+    ],
+    "most_damaging_scenario": {
+      "name": "Scenario 3: Velocity Surge",
+      "mean_prob_surge": "0.1227 to 0.2230",
+      "review_workload": "81.33%",
+      "cost_per_1k": "13,947.12 CU (+51.58% cost inflation)",
+      "wasserstein_drift": 0.1002,
+      "mitigation": "Dynamic promotional velocity normalization & rate limiting."
+    },
+    "most_resilient_domains": [
+      "Numerical missingness (+20% nulls): handled seamlessly by median imputer + indicators (W1 = 0.0025).",
+      "Unseen categorical drift: safely ignored by OneHotEncoder with zero execution errors (W1 = 0.0010)."
+    ],
+    "figures": {
+      "stress_workload_cost": "reports/figures/21_stress_testing_workload_and_cost.png",
+      "probability_drift": "reports/figures/22_stress_testing_probability_drift.png",
+      "fold_stability": "reports/figures/23_cross_validation_fold_stability.png"
+    }
+  },
+  "final_independent_test_evaluation": {
+    "partition_size": 600,
+    "fraud_cases": 73,
+    "legitimate_cases": 527,
+    "metrics": {
+      "Sample Size (n)": "600",
+      "Fraud Prevalance": "12.17%",
+      "ROC-AUC": "0.6402",
+      "PR-AUC (Average Precision)": "0.2003",
+      "Brier Score": "0.1041",
+      "Log Loss (Cross-Entropy)": "0.3577",
+      "Expected Calibration Error (ECE)": "0.0108",
+      "Accuracy (at t_review=0.10)": "0.5217",
+      "Balanced Accuracy": "0.5979",
+      "Precision (Triage Flag)": "0.1614",
+      "Recall (Triage Flag)": "0.6986",
+      "F1-Score": "0.2622",
+      "True Negatives (TN)": "262",
+      "False Positives (FP)": "265",
+      "False Negatives (FN)": "22",
+      "True Positives (TP)": "51"
+    },
+    "cross_policy_comparison": [
+      {
+        "review_threshold": 0.5,
+        "block_threshold": 0.5,
+        "total_cost": 11502.939999999999,
+        "cost_per_1k": 19171.566666666662,
+        "fraud_capture_rate": 0.0,
+        "review_workload_pct": 0.0,
+        "block_rate_pct": 0.0,
+        "fraud_approved": 73,
+        "fraud_reviewed": 0,
+        "fraud_blocked": 0,
+        "legit_approved": 527,
+        "legit_reviewed": 0,
+        "legit_blocked": 0,
+        "n_approve": 600,
+        "n_review": 0,
+        "n_block": 0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 73,
+        "tn": 527,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "policy_name": "Standard Binary (t=0.50)",
+        "cost_savings_vs_default": 0.0,
+        "cost_savings_pct": 0.0
+      },
+      {
+        "review_threshold": 0.19,
+        "block_threshold": 0.19,
+        "total_cost": 10951.5,
+        "cost_per_1k": 18252.5,
+        "fraud_capture_rate": 0.2054794520547945,
+        "review_workload_pct": 0.0,
+        "block_rate_pct": 11.333333333333332,
+        "fraud_approved": 58,
+        "fraud_reviewed": 0,
+        "fraud_blocked": 15,
+        "legit_approved": 474,
+        "legit_reviewed": 0,
+        "legit_blocked": 53,
+        "n_approve": 532,
+        "n_review": 0,
+        "n_block": 68,
+        "tp": 15,
+        "fp": 53,
+        "fn": 58,
+        "tn": 474,
+        "precision": 0.22058823529411764,
+        "recall": 0.2054794520547945,
+        "f1": 0.21276595744680848,
+        "policy_name": "Cost-Optimized Binary (t=0.19)",
+        "cost_savings_vs_default": 551.4399999999987,
+        "cost_savings_pct": 4.793904862582946
+      },
+      {
+        "review_threshold": 0.1,
+        "block_threshold": 0.36,
+        "total_cost": 6660.0035,
+        "cost_per_1k": 11100.005833333333,
+        "fraud_capture_rate": 0.6986301369863014,
+        "review_workload_pct": 52.0,
+        "block_rate_pct": 0.6666666666666667,
+        "fraud_approved": 22,
+        "fraud_reviewed": 50,
+        "fraud_blocked": 1,
+        "legit_approved": 262,
+        "legit_reviewed": 262,
+        "legit_blocked": 3,
+        "n_approve": 284,
+        "n_review": 312,
+        "n_block": 4,
+        "tp": 51,
+        "fp": 265,
+        "fn": 22,
+        "tn": 262,
+        "precision": 0.16139240506329114,
+        "recall": 0.6986301369863014,
+        "f1": 0.2622107969151671,
+        "policy_name": "Optimized Three-Action Policy (Selected)",
+        "cost_savings_vs_default": 4842.936499999999,
+        "cost_savings_pct": 42.101727906083134
+      }
+    ],
+    "operational_breakdown": [
+      {
+        "metric_id": 1,
+        "operational_metric": "Approved Transactions",
+        "count_or_rate": "284",
+        "percentage_of_test_cohort": "47.33%"
+      },
+      {
+        "metric_id": 2,
+        "operational_metric": "Transactions Routed to Manual Review",
+        "count_or_rate": "312",
+        "percentage_of_test_cohort": "52.00%"
+      },
+      {
+        "metric_id": 3,
+        "operational_metric": "Transactions Automatically Blocked",
+        "count_or_rate": "4",
+        "percentage_of_test_cohort": "0.67%"
+      },
+      {
+        "metric_id": 4,
+        "operational_metric": "Fraudulent Transactions Approved (FN Leakage)",
+        "count_or_rate": "22",
+        "percentage_of_test_cohort": "30.14% of test fraud"
+      },
+      {
+        "metric_id": 5,
+        "operational_metric": "Fraudulent Transactions Sent to Review",
+        "count_or_rate": "50",
+        "percentage_of_test_cohort": "68.49% of test fraud"
+      },
+      {
+        "metric_id": 6,
+        "operational_metric": "Fraudulent Transactions Automatically Blocked",
+        "count_or_rate": "1",
+        "percentage_of_test_cohort": "1.37% of test fraud"
+      },
+      {
+        "metric_id": 7,
+        "operational_metric": "Legitimate Transactions Unnecessarily Reviewed",
+        "count_or_rate": "262",
+        "percentage_of_test_cohort": "49.72% of test legit"
+      },
+      {
+        "metric_id": 8,
+        "operational_metric": "Legitimate Transactions Incorrectly Blocked (FP Insult)",
+        "count_or_rate": "3",
+        "percentage_of_test_cohort": "0.57% of test legit"
+      },
+      {
+        "metric_id": 9,
+        "operational_metric": "Overall Fraud Capture Rate (Review + Block)",
+        "count_or_rate": "69.86%",
+        "percentage_of_test_cohort": "51 / 73 frauds"
+      },
+      {
+        "metric_id": 10,
+        "operational_metric": "False Positive Hard Block Burden",
+        "count_or_rate": "0.50%",
+        "percentage_of_test_cohort": "3 transactions"
+      },
+      {
+        "metric_id": 11,
+        "operational_metric": "Manual Review Workload per 1,000 Transactions",
+        "count_or_rate": "520.0",
+        "percentage_of_test_cohort": "52.00% capacity demand"
+      },
+      {
+        "metric_id": 12,
+        "operational_metric": "Expected Business Cost per 1,000 Transactions",
+        "count_or_rate": "11100.01 CU",
+        "percentage_of_test_cohort": "Total: 6660.00 CU"
+      }
+    ],
+    "verified_results": {
+      "roc_auc": 0.6402,
+      "pr_auc": 0.2003,
+      "brier_score": 0.1041,
+      "log_loss": 0.3577,
+      "ece": 0.0108,
+      "cost_per_1k": 11100.01,
+      "baseline_cost_1k": 19171.57,
+      "cost_savings_pct": 42.1,
+      "fraud_capture_rate_pct": 69.86,
+      "manual_review_workload_pct": 52.0,
+      "legitimate_hard_blocks": 3,
+      "legitimate_hard_block_rate_pct": 0.57
+    },
+    "figures": {
+      "curves": "reports/figures/24_final_test_pr_roc_calibration.png",
+      "policy_comparison": "reports/figures/25_final_test_operational_comparison.png"
+    }
+  },
+  "model_governance_and_monitoring": {
+    "policy": {
+      "intended_use": "Automated payment risk triage for retail e-commerce and card-not-present transactions. Routes transactions into APPROVE (p < 0.10), MANUAL REVIEW (0.10 <= p < 0.36), and BLOCK (p >= 0.36).",
+      "prohibited_use": "Credit scoring, creditworthiness evaluations, automated employment background screening, tenant vetting, or legal jurisdiction profiling. Disallowed under ECOA and FCRA.",
+      "dataset_assumptions": "Cross-sectional transaction snapshot with 12.13% historical fraud prevalence. Predictors represent telemetry available strictly at authorization time.",
+      "prediction_time_availability": "Strict isolation: transaction_id and fraud target are quarantined. All 23 predictors must be populated from authorization stream telemetry.",
+      "target_leakage_mitigation": "Zero post-transaction settlement or chargeback feedback variables are permitted into the feature matrix. Prior chargebacks represent historical merchant records, not current transaction outcomes.",
+      "temporal_limitations": "Only hour and day_of_week are provided; full chronological timestamps are unavailable. Stratified random partitioning is utilized; chronological time-based drift models require future timestamp logging.",
+      "monitoring_frequency": "Daily score distributions; weekly drift sweeps; monthly retraining reviews."
+    },
+    "monitoring_metrics": [
+      {
+        "metric_name": "Prediction Score Distribution Drift",
+        "measurement_definition": "Wasserstein distance (Earth Mover's Distance) between daily score distribution and baseline policy validation distribution.",
+        "required_data": "Daily inference log of calibrated fraud probabilities.",
+        "monitoring_frequency": "Daily",
+        "proposed_trigger": "Wasserstein distance > 0.05 or median probability shifts by > 0.03.",
+        "recommended_response": "Trigger MLOps investigation; verify upstream merchant telemetry; inspect feature distributions."
+      },
+      {
+        "metric_name": "Important Feature Distribution Drift",
+        "measurement_definition": "Population Stability Index (PSI) on top 5 global predictors (e.g. combined_merchant_ip_risk, login_velocity_interaction).",
+        "required_data": "Raw transaction feature telemetry from authorization stream.",
+        "monitoring_frequency": "Weekly",
+        "proposed_trigger": "PSI > 0.20 on any top-5 feature (significant distributional shift).",
+        "recommended_response": "Audit feature pipelines; verify upstream risk score vendor feeds; check for holiday/promotional velocity surges."
+      },
+      {
+        "metric_name": "Missing-Value Influx Rate",
+        "measurement_definition": "Percentage of missing values in core telemetry fields (authentication_level, merchant_risk_score, ip_risk_score).",
+        "required_data": "Daily transaction feature payload logs.",
+        "monitoring_frequency": "Daily / Hourly Canary",
+        "proposed_trigger": "Missingness > 25% in authentication_level or > 10% in risk score feeds.",
+        "recommended_response": "Raise Sev-2 telemetry degradation alert; inspect mobile app/web SDK network timeouts; verify API vendor uptime."
+      },
+      {
+        "metric_name": "Confirmed Fraud Recall (Delayed Feedback)",
+        "measurement_definition": "True positive capture rate based on 30-to-60 day confirmed chargeback and manual review clearance records.",
+        "required_data": "Historical authorization logs joined with settled dispute records.",
+        "monitoring_frequency": "Monthly (with rolling 60-day lag)",
+        "proposed_trigger": "Realized fraud capture rate drops below 60.0% (baseline: 69.86%).",
+        "recommended_response": "Initiate immediate model retraining cycle; re-optimize operational decision thresholds; review evasion patterns."
+      },
+      {
+        "metric_name": "False-Positive Customer Insult Burden",
+        "measurement_definition": "Rate of legitimate transactions incorrectly hard-blocked relative to total volume.",
+        "required_data": "Customer support dispute logs, chargeback clearance logs, and automated block logs.",
+        "monitoring_frequency": "Weekly",
+        "proposed_trigger": "False hard block rate exceeds 1.5% of legitimate volume (baseline: 0.57%).",
+        "recommended_response": "Elevate block_threshold (e.g. from 0.36 to 0.42); route borderline cases to manual review; audit top fraud rules."
+      },
+      {
+        "metric_name": "Probability Calibration Reliability (Brier & ECE)",
+        "measurement_definition": "Empirical Brier score and Expected Calibration Error (ECE) on confirmed historical transaction cohorts.",
+        "required_data": "Monthly settled transaction outcomes and logged calibrated probabilities.",
+        "monitoring_frequency": "Monthly",
+        "proposed_trigger": "Brier score > 0.120 (baseline: 0.104) or ECE > 0.040 (baseline: 0.011).",
+        "recommended_response": "Refit CalibratedClassifierCV calibrator on recent 90-day settled development window; verify Platt scaling parameters."
+      },
+      {
+        "metric_name": "Manual Review Queue Workload",
+        "measurement_definition": "Percentage of total transaction volume routed to human investigator queues.",
+        "required_data": "Real-time decision engine transaction routing logs.",
+        "monitoring_frequency": "Daily / Shift-by-Shift",
+        "proposed_trigger": "Manual review demand exceeds 65.0% of total volume or investigator queue latency exceeds SLA (e.g. > 15 minutes).",
+        "recommended_response": "Engage adaptive capacity throttling (raise review_threshold from 0.10 to 0.15); route lowest-risk review band to passive step-up auth."
+      },
+      {
+        "metric_name": "Expected Business Cost per 1,000 Transactions",
+        "measurement_definition": "Realized financial cost units (CU) per 1k transactions combining fraud loss, review wages, and customer friction.",
+        "required_data": "Monthly financial operational reporting ledger.",
+        "monitoring_frequency": "Monthly",
+        "proposed_trigger": "Cost per 1k transactions exceeds 14,000 CU (baseline: 11,100 CU; a >25% inflation shock).",
+        "recommended_response": "Executive review of cost parameters; investigate sudden large-amount fraud leakage; recalibrate 3-tier policy."
+      }
+    ],
+    "operational_lifecycle": {
+      "investigate_drift": "Triggered when daily Wasserstein score drift exceeds 0.05 or weekly feature PSI exceeds 0.20. MLOps reviews data feeds without halting inference.",
+      "review_thresholds": "Triggered when review queue congestion exceeds 65% capacity or confirmed false block rate exceeds 1.5%. Risk committee adjusts review_threshold or block_threshold within approved bounds.",
+      "retrain_model": "Triggered quarterly as standard maintenance, or ad-hoc if 60-day confirmed fraud recall drops below 60.0% or Brier score exceeds 0.120. Retraining must follow frozen pipeline CV protocols.",
+      "rollback_to_prior_version": "Triggered if new model deployment exhibits unexpected runtime error rate > 0.1%, severe calibration degradation (ECE > 0.05), or severe unexplained drop in fraud capture within first 48 hours.",
+      "temporarily_disable_automated_blocking": "OPERATIONAL KILL SWITCH: If incoming telemetry experiences systemic upstream failure (e.g. merchant risk score API down, missingness > 50%), automated BLOCK is immediately suspended (block_threshold set to 1.0). All suspect transactions are diverted to MANUAL REVIEW or step-up 3DS authentication to prevent widespread customer lockouts."
+    }
+  }
+}

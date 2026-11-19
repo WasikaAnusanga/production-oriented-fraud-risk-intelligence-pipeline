@@ -1,0 +1,5 @@
+customer_tier,volume,fraud_count,fraud_rate,fraud_rate_pct,volume_pct,relative_risk,se_pct
+Platinum,173,26,0.15028901734104047,15.03,9.61,1.24,2.72
+Basic,663,90,0.13574660633484162,13.57,36.83,1.12,1.33
+Gold,406,44,0.10837438423645321,10.84,22.56,0.89,1.54
+Silver,558,58,0.1039426523297491,10.39,31.0,0.86,1.29

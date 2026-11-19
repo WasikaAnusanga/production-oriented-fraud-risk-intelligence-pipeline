@@ -1,0 +1,13 @@
+metric_id,operational_metric,count_or_rate,percentage_of_cohort
+1,Approved Transactions,277,46.17%
+2,Transactions Routed to Manual Review,317,52.83%
+3,Transactions Automatically Blocked,6,1.00%
+4,Fraudulent Transactions Approved (FN Leakage),19,26.03% of fraud
+5,Fraudulent Transactions Sent to Review,51,69.86% of fraud
+6,Fraudulent Transactions Automatically Blocked,3,4.11% of fraud
+7,Legitimate Transactions Unnecessarily Reviewed,266,50.47% of legit
+8,Legitimate Transactions Incorrectly Blocked (FP Insult),3,0.57% of legit
+9,Overall Fraud Capture Rate (Review + Block),73.97%,54 / 73 frauds
+10,False Positive Hard Block Burden,0.50%,3 transactions
+11,"Manual Review Workload per 1,000 Transactions",528.3,52.83% capacity demand
+12,"Expected Business Cost per 1,000 Transactions",9201.08 CU,Total: 5520.65 CU

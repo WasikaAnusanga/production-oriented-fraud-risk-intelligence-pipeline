@@ -1,0 +1,50 @@
+# Business Cost Framework Configuration for Fraud Risk Intelligence
+# All values are hypothetical Cost Units (CU), representing normalized financial and operational impact.
+
+version: "1.0"
+unit: "Cost Units (CU)"
+
+# Three distinct business operating environments
+scenarios:
+  scenario_a_fraud_loss_dominant:
+    name: "Scenario A: Fraud-Loss-Dominant"
+    description: "High-exposure environment (e.g. wire transfers, luxury goods, digital goods with irreversible fulfillment) where fraud loss vastly outstrips customer friction."
+    c_fp_block: 30.0               # Customer insult / churn cost when legitimate transaction is hard blocked
+    c_review_base: 5.0             # Human fraud investigator processing cost per review
+    c_review_friction: 2.0         # Customer burden / latency friction for undergoing manual verification
+    c_block_admin: 1.0             # Automated administrative overhead for processing a block
+    fraud_loss_multiplier: 1.0     # 100% of transaction amount is lost on undetected fraud
+    fraud_loss_fixed_overhead: 15.0 # Chargeback fee + operational processing overhead per fraud
+    review_leakage_rate: 0.10      # 10% of fraud escapes manual review (90% reviewer efficacy)
+    fallback_amount: 150.0         # Median imputed amount for missing transaction_amount in cost formulation
+
+  scenario_b_balanced:
+    name: "Scenario B: Balanced Financial & Operational Tradeoff (Primary Baseline)"
+    description: "Standard retail omnichannel e-commerce environment balancing chargeback mitigation, customer lifetime value retention, and operational overhead."
+    c_fp_block: 50.0               # Meaningful insult cost for false hard blocks (lost future margin + customer support)
+    c_review_base: 6.0             # Investigator cost per manual review
+    c_review_friction: 3.0         # Customer friction / notification cost
+    c_block_admin: 1.5             # Overhead for managing blocked transactions
+    fraud_loss_multiplier: 1.0     # 100% of transaction amount lost on fraud
+    fraud_loss_fixed_overhead: 10.0 # Standard chargeback scheme fee
+    review_leakage_rate: 0.15      # 15% of fraud slips past manual review (85% reviewer efficacy)
+    fallback_amount: 150.0
+
+  scenario_c_customer_friction_dominant:
+    name: "Scenario C: Customer-Friction-Dominant"
+    description: "High-LTV subscription, wealth management, or competitive fintech environment where false declinations destroy client trust and trigger account churn."
+    c_fp_block: 120.0              # Severe brand damage and churn penalty for false hard block
+    c_review_base: 7.0             # Investigator cost
+    c_review_friction: 6.0         # Severe customer annoyance at review friction
+    c_block_admin: 2.0             # Overhead cost
+    fraud_loss_multiplier: 0.85    # Partial recovery / merchant liability mitigation
+    fraud_loss_fixed_overhead: 5.0 # Modest overhead
+    review_leakage_rate: 0.20      # 20% fraud leakage in high-friction expedited reviews (80% efficacy)
+    fallback_amount: 150.0
+
+# Parameter ranges for sensitivity analysis
+sensitivity_grid:
+  c_fp_block_values: [15.0, 30.0, 50.0, 80.0, 120.0]
+  c_review_base_values: [2.0, 4.0, 6.0, 8.0, 12.0]
+  review_leakage_rates: [0.05, 0.10, 0.15, 0.25, 0.35]
+  fraud_multiplier_values: [0.70, 0.85, 1.0, 1.25, 1.50]

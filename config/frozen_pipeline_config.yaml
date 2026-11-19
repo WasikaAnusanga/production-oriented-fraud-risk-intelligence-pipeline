@@ -1,0 +1,61 @@
+# Final Frozen Pipeline & Policy Configuration
+# Generated prior to Final Independent Test Set Evaluation
+# Frozen State: 2026-11-19
+
+pipeline_metadata:
+  project_name: "fraud-risk-intelligence-v2"
+  version: "1.0.0"
+  random_state: 42
+  status: "FROZEN_FOR_TEST_EVALUATION"
+
+model_specification:
+  primary_architecture: "RandomForestClassifier"
+  hyperparameters:
+    n_estimators: 200
+    max_depth: 8
+    min_samples_split: 10
+    min_samples_leaf: 4
+    max_features: "sqrt"
+    class_weight: null
+    random_state: 42
+  feature_engineering:
+    transformer: "AdvancedFraudFeatureEngineer"
+    include_original: true
+    n_engineered_features: 18
+  preprocessing:
+    numerical_imputation: "SimpleImputer(strategy='median', add_indicator=True)"
+    numerical_scaling: "StandardScaler"
+    categorical_encoding: "OneHotEncoder(handle_unknown='ignore', sparse_output=False)"
+
+calibration_specification:
+  method: "sigmoid" # Platt scaling
+  cv_scheme: "CalibratedClassifierCV(cv=5)"
+  calibrator_fit_partition: "development" # 1,800 rows exclusively
+
+operational_policy:
+  primary_scenario: "scenario_b_balanced"
+  review_threshold: 0.10
+  block_threshold: 0.36
+  actions:
+    approve: "p < 0.10"
+    manual_review: "0.10 <= p < 0.36"
+    block: "p >= 0.36"
+  baseline_comparisons:
+    default_binary: "t = 0.50"
+    cost_optimized_binary: "t = 0.19"
+
+business_cost_parameters:
+  c_fp_block: 50.0
+  c_review_base: 6.0
+  c_review_friction: 3.0
+  c_block_admin: 1.5
+  fraud_loss_multiplier: 1.0
+  fraud_loss_fixed_overhead: 10.0
+  review_leakage_rate: 0.15
+  fallback_amount: 150.0
+
+split_manifest_verification:
+  development_samples: 1800
+  policy_validation_samples: 600
+  final_test_samples: 600
+  final_test_quarantine_enforced: true

@@ -1,0 +1,4 @@
+authentication_level,volume,fraud_count,fraud_rate,fraud_rate_pct,volume_pct,relative_risk,se_pct
+MISSING (Unrecorded),161,33,0.20496894409937888,20.5,8.94,1.69,3.18
+Standard,819,100,0.1221001221001221,12.21,45.5,1.01,1.14
+Strong,820,85,0.10365853658536585,10.37,45.56,0.86,1.06

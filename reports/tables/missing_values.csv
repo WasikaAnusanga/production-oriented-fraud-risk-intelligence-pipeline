@@ -1,0 +1,7 @@
+feature,missing_count,missing_pct,observed_count,fraud_count_missing,fraud_rate_missing_pct,fraud_count_observed,fraud_rate_observed_pct,fraud_rate_diff_pct,p_value_fisher,odds_ratio,cramers_v,is_significant_05,predictive_missingness_interpretation
+authentication_level,161,8.94,1639,33,20.5,185,11.29,9.21,0.00139,2.026,0.0776,True,"Statistically significant association (p=0.0014, OR=2.03). Missingness is predictive (MNAR/MAR candidate); fraud rate is elevated by 9.21%."
+distance_from_usual_location_km,43,2.39,1757,4,9.3,214,12.18,-2.88,0.81212,0.74,0.0079,False,"No statistically significant difference (p=0.8121, OR=0.74). Missingness appears non-informative (MCAR candidate)."
+merchant_risk_score,33,1.83,1767,0,0.0,218,12.34,-12.34,0.02694,0.0,0.0444,True,"Statistically significant association (p=0.0269, OR=0.00). Missingness is predictive (MNAR/MAR candidate); fraud rate is suppressed by 12.34%."
+login_to_transaction_minutes,38,2.11,1762,4,10.53,214,12.15,-1.62,1.0,0.851,0.0012,False,"No statistically significant difference (p=1.0000, OR=0.85). Missingness appears non-informative (MCAR candidate)."
+transaction_amount,32,1.78,1768,2,6.25,216,12.22,-5.97,0.41817,0.479,0.0177,False,"No statistically significant difference (p=0.4182, OR=0.48). Missingness appears non-informative (MCAR candidate)."
+ip_risk_score,21,1.17,1779,3,14.29,215,12.09,2.2,0.73388,1.212,0.0,False,"No statistically significant difference (p=0.7339, OR=1.21). Missingness appears non-informative (MCAR candidate)."

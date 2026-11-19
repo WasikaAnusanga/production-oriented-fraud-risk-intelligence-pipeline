@@ -1,0 +1,4 @@
+model,best_score_pr_auc,search_time_sec,best_params
+logistic_regression,0.224,14.47,"{'classifier__penalty': 'l2', 'classifier__class_weight': 'balanced', 'classifier__C': np.float64(0.29763514416313175)}"
+random_forest,0.2316,7.6,"{'classifier__n_estimators': 200, 'classifier__min_samples_split': 5, 'classifier__min_samples_leaf': 1, 'classifier__max_features': 'sqrt', 'classifier__max_depth': None, 'classifier__class_weight': None}"
+hist_gradient_boosting,0.2156,13.0,"{'classifier__min_samples_leaf': 20, 'classifier__max_leaf_nodes': 31, 'classifier__max_iter': 100, 'classifier__learning_rate': 0.1, 'classifier__l2_regularization': 0.0, 'classifier__class_weight': None}"

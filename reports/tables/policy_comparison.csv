@@ -1,0 +1,4 @@
+policy_name,review_th,block_th,review_threshold,block_threshold,total_cost,cost_per_1k,fraud_capture_rate,review_workload_pct,block_rate_pct,fraud_approved,fraud_reviewed,fraud_blocked,legit_approved,legit_reviewed,legit_blocked,n_approve,n_review,n_block,tp,fp,fn,tn,precision,recall,f1,cost_savings_pct
+Standard Binary (t=0.50),0.5,0.5,0.5,0.5,12119.54,20199.233333333337,0.0,0.0,0.0,73,0,0,527,0,0,600,0,0,0,0,73,527,0.0,0.0,0.0,0.0
+Optimized Binary (t=0.19),0.19,0.19,0.19,0.19,8785.23,14642.05,0.1917808219178082,0.0,10.166666666666666,59,0,14,480,0,47,539,0,61,14,47,59,480,0.22950819672131148,0.1917808219178082,0.20895522388059698,27.511852760088264
+Optimized Three-Action (Selected),0.1,0.36,0.1,0.36,5520.6465,9201.0775,0.7397260273972602,52.83333333333333,1.0,19,51,3,258,266,3,277,317,6,54,269,19,258,0.16718266253869968,0.7397260273972602,0.2727272727272727,54.44838252936993

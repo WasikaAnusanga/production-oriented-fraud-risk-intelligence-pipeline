@@ -1,0 +1,17 @@
+metric,value,category
+Sample Size (n),600,Dataset
+Fraud Prevalance,12.17%,Dataset
+ROC-AUC,0.6402,Discrimination
+PR-AUC (Average Precision),0.2003,Discrimination
+Brier Score,0.1041,Calibration
+Log Loss (Cross-Entropy),0.3577,Calibration
+Expected Calibration Error (ECE),0.0108,Calibration
+Accuracy (at t_review=0.10),0.5217,Classification
+Balanced Accuracy,0.5979,Classification
+Precision (Triage Flag),0.1614,Classification
+Recall (Triage Flag),0.6986,Classification
+F1-Score,0.2622,Classification
+True Negatives (TN),262,Confusion Matrix
+False Positives (FP),265,Confusion Matrix
+False Negatives (FN),22,Confusion Matrix
+True Positives (TP),51,Confusion Matrix

@@ -1,0 +1,30 @@
+check_category,rule_description,violation_count,status,details
+Uniqueness,Unique transaction_id,0,PASS,0 duplicate transaction IDs found.
+Uniqueness,Zero exact duplicate rows across all features,0,PASS,0 exact duplicate rows identified.
+Range Boundary,"Hour strictly in range [0, 23]",0,PASS,0 hour values out of bounds.
+Range Boundary,"Day of week strictly in range [0, 6]",0,PASS,0 day_of_week values out of bounds.
+Non-Negativity,transaction_amount must be non-negative (>= 0),0,PASS,0 negative entries found in transaction_amount.
+Non-Negativity,distance_from_usual_location_km must be non-negative (>= 0),0,PASS,0 negative entries found in distance_from_usual_location_km.
+Non-Negativity,transactions_last_1h must be non-negative (>= 0),0,PASS,0 negative entries found in transactions_last_1h.
+Non-Negativity,transactions_last_24h must be non-negative (>= 0),0,PASS,0 negative entries found in transactions_last_24h.
+Non-Negativity,account_age_days must be non-negative (>= 0),0,PASS,0 negative entries found in account_age_days.
+Non-Negativity,failed_logins_24h must be non-negative (>= 0),0,PASS,0 negative entries found in failed_logins_24h.
+Non-Negativity,prior_chargebacks must be non-negative (>= 0),0,PASS,0 negative entries found in prior_chargebacks.
+Non-Negativity,device_age_days must be non-negative (>= 0),0,PASS,0 negative entries found in device_age_days.
+Non-Negativity,email_age_days must be non-negative (>= 0),0,PASS,0 negative entries found in email_age_days.
+Non-Negativity,login_to_transaction_minutes must be non-negative (>= 0),0,PASS,0 negative entries found in login_to_transaction_minutes.
+Range Boundary,"merchant_risk_score must be bounded in [0.0, 1.0]",0,PASS,"0 values outside [0.0, 1.0] for merchant_risk_score."
+Range Boundary,"ip_risk_score must be bounded in [0.0, 1.0]",0,PASS,"0 values outside [0.0, 1.0] for ip_risk_score."
+Binary Domain,"new_device must only contain values in {0, 1}",0,PASS,0 non-binary values in new_device.
+Binary Domain,"billing_address_mismatch must only contain values in {0, 1}",0,PASS,0 non-binary values in billing_address_mismatch.
+Binary Domain,"fraud must only contain values in {0, 1}",0,PASS,0 non-binary values in fraud.
+Relational Logic,transactions_last_1h <= transactions_last_24h,0,PASS,0 records where 1h velocity exceeds 24h velocity.
+Type Integrity,transactions_last_1h must be integer count values,0,PASS,0 non-integer values detected in transactions_last_1h.
+Type Integrity,transactions_last_24h must be integer count values,0,PASS,0 non-integer values detected in transactions_last_24h.
+Type Integrity,failed_logins_24h must be integer count values,0,PASS,0 non-integer values detected in failed_logins_24h.
+Type Integrity,prior_chargebacks must be integer count values,0,PASS,0 non-integer values detected in prior_chargebacks.
+Type Integrity,account_age_days must be integer count values,0,PASS,0 non-integer values detected in account_age_days.
+Type Integrity,device_age_days must be integer count values,0,PASS,0 non-integer values detected in device_age_days.
+Type Integrity,email_age_days must be integer count values,0,PASS,0 non-integer values detected in email_age_days.
+Domain Context,Flag card_presence='Present' with channel='E-commerce',425,FLAG_SUSPICIOUS,425 records exhibit physical card present in e-commerce transactions.
+Domain Context,Flag instant login (0 min) combined with failed_logins_24h > 0,0,PASS,0 transactions executed within 0 minutes of login with prior failed attempts.
