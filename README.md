@@ -1,5 +1,5 @@
 # Fraud Risk Intelligence Pipeline (`fraud-risk-intelligence-v2`)
-### Senior Data Science, MLOps, and Decision Engineering Architecture
+
 
 [![Python 3.14](https://img.shields.io/badge/python-3.14-blue.svg)](https://www.python.org/downloads/)
 [![Tests Passing](https://img.shields.io/badge/tests-49%20passed-brightgreen.svg)]()
